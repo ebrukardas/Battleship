@@ -1,0 +1,177 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{graphicx, wrapfig, subcaption, setspace, booktabs}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage{comment}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\graphicspath{ {./image/} }
+
+
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=false,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=3pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4
+}
+
+%"mystyle" code listing set
+\lstset{style=mystyle}
+
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+%-------------------------------------------------------------------------------
+% HEADER & FOOTER
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\setlength\headheight{15pt}
+\fancyhead[L]{Assignment Report}
+\fancyhead[R]{Ebru Kardas}
+
+\begin{comment}
+https://tr.overleaf.com/latex/examples/fysik-template/hdpmbqvfqpsw
+-Udledninger
+$$
+\begin{aligned}
+
+
+\end{aligned}
+$$
+
+-Opgavetekst
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{"path"}
+\end{figure} 
+
+
+-Opgave billede med tekst
+\begin{figure}[H]
+\caption{"Billedtekst"}
+\includegraphics[width=0.5\textwidth]{"path"}
+\end{figure} 
+
+-Værdier
+$\\
+
+$
+\end{comment}
+
+
+\begin{document}
+
+\title{ \normalsize \textsc{ }
+		\\ [4.0cm]
+		\HRule{5pt} \\
+		\LARGE \textbf{\uppercase{Assignment Report \\ Game: Battleship}}
+		\HRule{5pt} \\ [2.5cm]
+		\normalsize \vspace*{5\baselineskip}}
+
+\author{Ebru Kardas}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROBLEM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Problem}
+
+	Design and implement classical "Battleships" game. "Battleships" is a two player game which 
+	is played on a 10x10 grid board.
+	
+	\subsection{Ships}
+	There are 4 different types of ships in the game. These ships are submarine (S), destroyer (D),
+	cruiser (C) and battleship (B). They can be placed on the grid-based game board horizontally or
+	vertically. The only difference between these ships is their sizes. They cover 1, 2, 3 and 4 squares on
+	the grid board respectively. Any square of a ship can take a hit. If all squares of a ship are hit, then
+	the ship is sank.
+
+	\subsection{Players}
+	Each player in the game has 10 ships containing 4 submarines, 3 destroyers, 2 cruisers and a
+	battleship. Players place their ships on their own 10x10 grid game board, and attack to each other in
+	turn. To attack the opponent, player says a game board coordinate such as 'H7' which states the 7th
+	column of the 8th (H) row. If there is a ship piece in that coordinate, the ship is hit. If all pieces of
+	the ship is hit, then it is sank. The opponent should warn the other player about the success or fail of
+	the attack. Player whose all ships are sank loses the game.
+	
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SOLUTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{My Design For The Problem: Solution}
+
+Project is build on IntelliJ IDEA 2021.1.1 (Community Edition) with openjdk-16 (version 16.0.1).
+
+	\subsection{Input Checks}
+	Taken input for coordinate has to contain one letter, upper or lower-case, and a number. This input shows
+	the coordinate of the board. Rows are represented with letter (A-J) and columns are represented with numbers (0-9).
+
+	On start state, after coordinate the orientation of the ship is taken as character. The orientation is 
+	represented with 'v' character for vertical, 'h' character for horizontal.	
+
+	\subsection{Ship Design}
+	The abstract "Ship" class is extended by ship types. 
+	The class itself and the get method is abstract. Get method is implemented and for each ship size, 
+	the constructor of the super class is used.
+
+	The "Ship" class encapsulates all operations of the ships. 
+
+	\subsection{Player Design with State Design Pattern}
+
+	State design pattern is used for players. 
+	There are three state for each player:
+	\begin{itemize}
+		\item Start State
+		\item Take Turn State
+		\item Finish State
+	\end{itemize}
+
+		\newpage
+		\subsubsection{Start State}
+		If the player is on "Start State", all information of the ships (4 submarines, 3 destroyers, 2 cruisers
+		and 1 battleship) are entered from console as described. 
+
+		First player A (or player 1) enters the inputs. After player B (player 2) enters.
+
+		All inputs are checked on this stage.
+
+		\subsubsection{Take Turn State}
+		First of all, player A starts the game. Empty table is shown to the player. 
+		Empty parts are shown as " - ".\newline
+		Selected but not the part of the ship parts are shown as " S "..\newline
+		Hit parts of a ship are shown as " H ".\newline
+
+		The player enters a coordinate, which is also checked whether it is valid.
+		Player is informed if the hit is successful or not.
+
+		\subsubsection{Finish State}
+		If the player is on "Finish State", it is checked if the user win. If the player is win, game is over.
+
+
+\end{document}
